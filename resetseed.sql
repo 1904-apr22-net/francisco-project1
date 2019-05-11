@@ -1,0 +1,1 @@
+DBCC CHECKIDENT (customer_order, RESEED, 0)
