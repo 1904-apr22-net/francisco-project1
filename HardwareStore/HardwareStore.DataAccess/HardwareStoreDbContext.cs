@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace HardwareStore.DataAccess.Entities
+namespace HardwareStore.DataAccess
 {
     public partial class HardwareStoreDbContext : DbContext
     {

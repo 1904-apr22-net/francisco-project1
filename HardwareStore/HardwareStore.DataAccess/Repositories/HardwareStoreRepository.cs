@@ -1,4 +1,5 @@
-﻿using HardwareStore.DataAccess.Entities;
+﻿//using HardwareStore.DataAccess.Entities;
+using HardwareStore.DataAccess;
 using HardwareStore.Library.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using HardwareStore.Library.Interfaces;
 using HardwareStore.Library;
-using HardwareStore.DataAccess.Entities;
+using HardwareStore.DataAccess;
+//using HardwareStore.DataAccess.Entities;
 using System.Linq;
 
 namespace HardwareStore.DataAccess.Repositories

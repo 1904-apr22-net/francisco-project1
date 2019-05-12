@@ -4,7 +4,8 @@ using System.Text;
 using HardwareStore.Library.Interfaces;
 using HardwareStore.Library;
 using System.Linq;
-using HardwareStore.DataAccess.Entities;
+//using HardwareStore.DataAccess.Entities;
+using HardwareStore.DataAccess;
 
 namespace HardwareStore.DataAccess.Repositories
 {

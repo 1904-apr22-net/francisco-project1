@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HardwareStore.DataAccess.Entities
+namespace HardwareStore.DataAccess
 {
     public partial class Customer
     {

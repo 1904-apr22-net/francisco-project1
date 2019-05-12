@@ -1,0 +1,41 @@
+﻿@model IEnumerable<HardwareStore.WebUI.Models.LocationViewModel>
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<h5>Below is a list of our Locations</h5>
+<br>
+
+<h3>Store Locations</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.Address)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.Address)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

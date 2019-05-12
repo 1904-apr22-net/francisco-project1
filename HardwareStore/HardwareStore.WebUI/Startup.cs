@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using HardwareStore.DataAccess;
+using HardwareStore.DataAccess.Repositories;
+using HardwareStore.Library.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace HardwareStore.WebUI
 {
@@ -31,8 +36,19 @@ namespace HardwareStore.WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<HardwareStoreDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("HardwareStoreDb")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+
+            //services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            services.AddScoped<ICustomerRepository,CustomerRepository>();
+            services.AddScoped<ILocationRepo, LocationRepository>();
+            services.AddScoped<IOrdersRepository, OrderRepository>();
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
