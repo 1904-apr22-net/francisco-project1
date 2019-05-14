@@ -1,12 +1,9 @@
 ﻿@model IEnumerable<HardwareStore.WebUI.Models.OrderViewModel>
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Details";
 }
-    <h4>
-        <a asp-action="Create">Place New Order</a>
-    </h4>
-<h1>Orders</h1>
 
+<h1>Orders by customer</h1>
 
 <table class="table">
     <thead>
@@ -54,4 +51,8 @@
         }
     </tbody>
 </table>
+
+
+
+
 

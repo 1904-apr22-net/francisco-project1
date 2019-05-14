@@ -14,5 +14,6 @@ namespace HardwareStore.Library.Interfaces
         IEnumerable<Location> GetAllLocations();
         IEnumerable<Inventory> GetInventoryByLocationId(int locationId);
         //void Save();
+        Location GetLocationById(int locationId);
     }
 }

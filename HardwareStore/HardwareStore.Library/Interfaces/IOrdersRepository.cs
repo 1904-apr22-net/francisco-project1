@@ -14,6 +14,8 @@ namespace HardwareStore.Library.Interfaces
         //void GetOrderItems(int orderId);
         void AddOrder(Order order);
         //void UpdateOrder(Order order);
+        IEnumerable<Library.OrderItem> GetItemsByOrderId(int orderId);
+        void AddOrderItem(Library.OrderItem item);
         void Save();
 
     }

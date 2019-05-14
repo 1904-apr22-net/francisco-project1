@@ -25,13 +25,14 @@ namespace ConsoleApp
 
 
             HardwareStoreRepository repo = new HardwareStoreRepository(dbContext);
+            CustomerRepository cusRepo = new CustomerRepository(dbContext);
             /*CustomerRepository customerRepository = new CustomerRepository(dbContext);
             OrderRepository orderRepository = new OrderRepository(dbContext);
             LocationRepository locationRepository = new LocationRepository(dbContext);
             ProductsRepository productsRepository = new ProductsRepository(dbContext);*/
 
             Console.WriteLine("getting all customers");
-            var CustomerList = repo.GetCustomers().ToList();
+            var CustomerList = cusRepo.GetCustomers().ToList();
             foreach (var cust in CustomerList)
             {
                 Console.WriteLine("Id: " + cust.CustId + " Name: " + cust.FirstName + " " + cust.LastName + " phone: " + cust.PhoneNumber + " DefaultlocId: " + cust.DefaultStoreId);

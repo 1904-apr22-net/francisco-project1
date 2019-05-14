@@ -4,58 +4,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using HardwareStore.Library.Interfaces;
 using HardwareStore.Library;
+using HardwareStore.Library.Interfaces;
 using HardwareStore.WebUI.Models;
 
 namespace HardwareStore.WebUI.Controllers
 {
-    public class LocationController : Controller
+    public class CustomerController : Controller
     {
         public ILocationRepo LocRepo { get; set; }
         public ICustomerRepository CusRepo { get; set; }
         public IProductsRepository ProdRepo { get; set; }
         public IOrdersRepository OrdRepo { get; set; }
 
-        public LocationController(ILocationRepo locationRepo, ICustomerRepository customerRepo, IProductsRepository productsRepo, IOrdersRepository ordersRepo)
+        public CustomerController(ILocationRepo locationRepo, ICustomerRepository customerRepo, IProductsRepository productsRepo, IOrdersRepository ordersRepo)
         {
             LocRepo = locationRepo;
             CusRepo = customerRepo;
             ProdRepo = productsRepo;
             OrdRepo = ordersRepo;
         }
-        /*public LocationController(ILocationRepo repo) => 
-            Repo = repo ?? throw new ArgumentNullException(nameof(repo));*/
-        
-        // GET: Location
+        // GET: Customer
         public ActionResult Index()
         {
-            IEnumerable<Library.Location> locationList = LocRepo.GetAllLocations().ToList();
-
-            /*var viewModels = locationList.Select(s=>new LocationViewModel
+            IEnumerable<Library.Customer> customerList = CusRepo.GetCustomers().ToList();
+            IEnumerable<CustomerViewModel> viewModels = customerList.Select(x => new CustomerViewModel
             {
-                LocationId=s.LocationId,
-                LocationName=s.Name
-            }
-                ).ToList();*/
-            IEnumerable<LocationViewModel> viewModels = locationList.Select(x => new LocationViewModel
-            {
-                LocationId = x.LocationId,
-                LocationName=x.Name,
-                Address=x.Address
+                CustomerId=x.CustId,
+                FName=x.FirstName,
+                LName=x.LastName,
+                Phone=x.PhoneNumber,
+                DefaultLocationId=x.DefaultStoreId
             });
-            /*var locationModels=locationList.Select(s=>new LocationViewModel
-            {
 
-            }*/
             return View(viewModels);
         }
 
-        // GET: Location/Details/5
+        // GET: Customer/Details/5
         public ActionResult Details(int id)
         {
-            IEnumerable<Order> orders = LocRepo.GetOrderHistoryByLocation(id);
+            IEnumerable<Order> orders = CusRepo.GetOrderHistoryByCustomer(id);
             var ViewModels = orders.Select(o => new OrderViewModel
             {
                 OrderId = o.OrderId,
@@ -65,23 +53,15 @@ namespace HardwareStore.WebUI.Controllers
                 OrderTotal = o.OrderTotal
             });
             return View(ViewModels);
-            /*
-            IEnumerable<Library.Order> OrderList = LocRepo.GetOrderHistoryByLocation(1);
-            //maybe add location repo here
-            var viewModels = OrderList.Select(o => new OrderViewModel
-            {
-                OrderId=o.OrderId,
-
-            });*/
         }
 
-        // GET: Location/Create
+        // GET: Customer/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Location/Create
+        // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -98,13 +78,13 @@ namespace HardwareStore.WebUI.Controllers
             }
         }
 
-        // GET: Location/Edit/5
+        // GET: Customer/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Location/Edit/5
+        // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -121,13 +101,13 @@ namespace HardwareStore.WebUI.Controllers
             }
         }
 
-        // GET: Location/Delete/5
+        // GET: Customer/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Location/Delete/5
+        // POST: Customer/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

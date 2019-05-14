@@ -7,6 +7,7 @@
 <br>
 
 <h3>Store Locations</h3>
+
 <table class="table">
     <thead>
         <tr>
@@ -17,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.LocationName)
             </th>
             <th>
-                @Html.DisplayNameFor(model =>model.Address)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
         </tr>
     </thead>
@@ -32,7 +33,10 @@
                     @Html.DisplayFor(modelItem => item.LocationName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem=>item.Address)
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.ActionLink("Orders", "Details", new { id = item.LocationId }) |
                 </td>
             </tr>
         }

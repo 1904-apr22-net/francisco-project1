@@ -1,0 +1,50 @@
+﻿@model  IEnumerable<HardwareStore.WebUI.Models.OrderItemViewModel>
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details for order</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderItemNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuantityBought)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderItemNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantityBought)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

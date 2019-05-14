@@ -52,6 +52,7 @@ namespace HardwareStore.DataAccess.Repositories
                 Console.WriteLine($"\tOrderItem: Order Id {x.OrderId} OrderItemNum: {x.OrderItemNum} quantity bought {x.QuantityBought} price: {x.Price}");
             }
         }
+
         public int GetLastOrderAdded()
         {
             return _dbContext.CustomerOrder.OrderByDescending(x=>x.OrderId).First().OrderId;

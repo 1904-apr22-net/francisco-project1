@@ -16,6 +16,8 @@ namespace HardwareStore.Library
 
         public decimal Price { get; set;}
 
+        //public OrderItem() { }
+
         //maybe add item name?or repeating self?
         //public int Amount { get; set; } maybe just calculate this in interface
     }

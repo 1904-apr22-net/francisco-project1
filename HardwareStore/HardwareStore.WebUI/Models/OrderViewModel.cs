@@ -16,10 +16,30 @@ namespace HardwareStore.WebUI.Models
         [Display(Name="Customer Id")]
         public int CustomerId { get; set; }
         [Display(Name="Time ordered")]
+        [DataType(DataType.DateTime)]
         public DateTime OrderTime { get; set; }
         [Display(Name="Total cost")]
         public decimal OrderTotal { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; }
+
+        public OrderViewModel() { }
+
+        public OrderViewModel(Order order)
+        {
+            OrderId = order.OrderId;
+            OrderTime = order.OrderTime;
+            OrderTotal = order.OrderTotal;
+            LocationId = order.LocationId;
+            CustomerId = order.CustomerId;
+            OrderItems = order.Items;
+        }
+
+        public List<Location> Locations { get; set; }
+        public List<Customer> Customers { get; set; }
+        public List<ProductViewModel> Products { get; set; }
+        public List<OrderItemViewModel> AmountItems { get; set; }
+        public Location OrderedAt { get; set; }
+
     }
 }

@@ -8,6 +8,7 @@ using HardwareStore.WebUI.Models;
 using HardwareStore.Library;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HardwareStore.Library.Interfaces;
+using Microsoft.Extensions.Logging;
 
 
 namespace HardwareStore.WebUI.Controllers
@@ -18,13 +19,15 @@ namespace HardwareStore.WebUI.Controllers
         public ICustomerRepository CusRepo { get; set; }
         public IProductsRepository ProdRepo { get; set; }
         public IOrdersRepository OrdRepo { get; set; }
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(ILocationRepo locationRepo, ICustomerRepository customerRepo, IProductsRepository productsRepo, IOrdersRepository ordersRepo)
+        public OrdersController(ILocationRepo locationRepo, ICustomerRepository customerRepo, IProductsRepository productsRepo, IOrdersRepository ordersRepo, ILogger<OrdersController> logger)
         {
             LocRepo = locationRepo;
             CusRepo = customerRepo;
             ProdRepo = productsRepo;
             OrdRepo = ordersRepo;
+            _logger = logger;
         }
 
         // GET: Orders
@@ -45,29 +48,78 @@ namespace HardwareStore.WebUI.Controllers
         // GET: Orders/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            IEnumerable<OrderItem> items = OrdRepo.GetItemsByOrderId(id);
+            var ViewModels = items.Select(i => new OrderItemViewModel
+            {
+                OrderId=i.OrderId,
+                OrderItemNum=i.OrderItemNum,
+                QuantityBought=i.QuantityBought,
+                ProductId=i.ProductId,
+                Price=i.Price
+            });
+            return View(ViewModels);
         }
 
         // GET: Orders/Create
         public ActionResult Create()
         {
-            return View();
+            var ViewModel = new OrderViewModel();
+            ViewModel.Locations = LocRepo.GetAllLocations().ToList();
+            ViewModel.Customers = CusRepo.GetCustomers().ToList();
+            ViewModel.Products = ProdRepo.GetAllProducts().Select(p=>new ProductViewModel(p)).ToList();
+            return View(ViewModel);
         }
 
         // POST: Orders/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(OrderViewModel collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                var order = new Order()
+                {
+                    OrderTime = DateTime.Now
+                };
+                order.LocationId = collection.LocationId;
+                order.CustomerId = collection.CustomerId;
+                order.OrderTotal = 0;
+                for (var i = 0; i < collection.Products.Count; i++)
+                {
+                    if (collection.Products[i].Checked)
+                    {
+                        order.OrderTotal += collection.Products[i].Price * collection.AmountItems[i].QuantityBought;
+                    }
+                }
+                order.Items = new List<OrderItem>();
+
+                var orderItem = new OrderItem();
+
+                //adding order items
+                for(var i=0; i<collection.Products.Count;i++)
+                {
+                    if(collection.Products[i].Checked)
+                    {
+                        orderItem.QuantityBought =collection.AmountItems[i].QuantityBought;
+                        orderItem.OrderItemNum = i;
+                        orderItem.ProductId = collection.Products[i].ProductId;
+                        orderItem.Price = collection.Products[i].Price;
+                        order.OrderItems.Add(orderItem);
+                    }
+                }
+
+                OrdRepo.AddOrder(order);
+                foreach(var item in order.OrderItems)
+                {
+                    OrdRepo.AddOrderItem(item);
+                }
 
                 return RedirectToAction(nameof(Index));
             }
+        
             catch
             {
-                return View();
+               return View();
             }
         }
 

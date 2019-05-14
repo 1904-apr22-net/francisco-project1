@@ -75,5 +75,8 @@ namespace HardwareStore.Library
             //TODO add code here
         }
 
+        //public OrderItem orderItem { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
