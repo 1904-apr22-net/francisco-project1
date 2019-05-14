@@ -60,6 +60,48 @@ namespace HardwareStore.WebUI.Controllers
             return View(ViewModels);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Order()
+        {
+            try
+            {
+                Order order = new Order();
+                order.OrderTime = DateTime.Now;
+                order.LocationId = 2;
+                order.CustomerId = 1;
+                order.OrderTotal = 23;
+
+                //List<OrderItem> items = new List<OrderItem>();
+                OrderItem item1 = new OrderItem();
+                item1.OrderItemNum = 1;
+                item1.QuantityBought = 4;
+                item1.ProductId = 3;
+                item1.Price = 5;
+
+                OrderItem item2 = new OrderItem();
+                item2.OrderItemNum = 2;
+                item2.QuantityBought = 1;
+                item2.ProductId = 1;
+                item2.Price = 3;
+
+                OrdRepo.AddOrder(order);
+                OrdRepo.Save();
+
+                item1.OrderId = OrdRepo.GetLastOrderAdded();
+                item2.OrderId = OrdRepo.GetLastOrderAdded();
+                OrdRepo.AddOrderItem(item1);
+                OrdRepo.AddOrderItem(item2);
+                OrdRepo.Save();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         // GET: Orders/Create
         public ActionResult Create()
         {
