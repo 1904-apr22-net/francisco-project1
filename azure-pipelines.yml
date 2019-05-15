@@ -46,4 +46,4 @@ steps:
   inputs:
     azureSubscription: 'Project1Connection'
     WebAppName: '1904-guerrerof-hardwarestore'
-    Package: $(System.ArtifactsDirectory)/**/*.zip
+    Package: $(System.DefaultWorkingDirectory)/publish/*.zip
