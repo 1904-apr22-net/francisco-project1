@@ -26,9 +26,9 @@ steps:
 
     # ...
 # do this after your tests have run
-- script: dotnet test <**/*Tests/*.csproj> --logger trx
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+#- script: dotnet test <HardwareStore.Tests.csproj> --logger trx
+#- task: PublishTestResults@2
+#  condition: succeededOrFailed()
+#  inputs:
+#    testRunner: VSTest
+#    testResultsFiles: '**/*.trx'
