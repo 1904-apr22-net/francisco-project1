@@ -11,15 +11,21 @@ namespace HardwareStore.WebUI.Models
     {
         [Display(Name = "Id")]
         public int CustomerId { get; set; }
+
+        [Required]
         [Display(Name = "First name")]
         public string FName { get; set; }
+
+        [Required]
         [Display(Name = "Last name")]
         public string LName { get; set; }
+        [Required]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
         [Display(Name="Default location id")]
         public int DefaultLocationId { get; set; }
         public List<Order> CustomerOrders { get; set; }
+        public List<Location> Locations { get; set; }
 
     }
 }

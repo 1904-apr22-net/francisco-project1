@@ -10,7 +10,7 @@ using HardwareStore.Library;
 
 namespace HardwareStore.DataAccess.Repositories
 {
-    public class CustomerRepository :ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly HardwareStoreDbContext _dbContext;
         //maybe add logger if time
@@ -30,10 +30,15 @@ namespace HardwareStore.DataAccess.Repositories
 
         public void DisplayCustomers()
         {
-            foreach(var cust in GetCustomers())
+            foreach (var cust in GetCustomers())
             {
                 Console.WriteLine("Id: " + cust.CustId + " Name: " + cust.FirstName + " " + cust.LastName + " phone: " + cust.PhoneNumber + " DefaultlocId: " + cust.DefaultStoreId);
             }
+        }
+
+        public void AddCustomer(Library.Customer customer)
+        {
+            _dbContext.Add(Mapper.Map(customer));
         }
 
         public Library.Customer GetCustomerById(int customerId)
@@ -58,6 +63,17 @@ namespace HardwareStore.DataAccess.Repositories
         public IEnumerable<Order> GetOrderHistoryByCustomer(int customerId)
         {
             return Mapper.Map(_dbContext.CustomerOrder.Where(order => order.CustomerId == customerId).ToList());
+        }
+
+        public void DeleteCustomer(int customerId)
+        {
+            Customer entity = _dbContext.Customer.Find(customerId);
+            _dbContext.Remove(entity);
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

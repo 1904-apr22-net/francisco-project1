@@ -12,6 +12,10 @@ namespace HardwareStore.Library.Interfaces
         void DisplayCustomer(Customer cust);
         IEnumerable<Customer> GetCustomerByName(string first, string last);
         IEnumerable<Order> GetOrderHistoryByCustomer(int customerId);
+        void AddCustomer(Customer customer);
+        Library.Customer GetCustomerById(int customerId);
+        void DeleteCustomer(int customerId);
+        void Save();
         /*
         void AddCustomer(Customer customer);
         void DeleteCustomer(Customer customer);

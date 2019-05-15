@@ -52,6 +52,17 @@ namespace HardwareStore.DataAccess.Repositories
             Console.WriteLine("Id: " + cust.CustId + " Name: " + cust.FirstName + " " + cust.LastName + " phone: " + cust.PhoneNumber + " DefaultlocId: " + cust.DefaultStoreId);
         }
 
+        public void AddCustomer(Library.Customer customer)
+        {
+            _dbContext.Add(Mapper.Map(customer));
+        }
+
+        public void DeleteCustomer(int customerId)
+        {
+            Customer entity = _dbContext.Customer.Find(customerId);
+            _dbContext.Remove(entity);
+        }
+
         /// <summary>
         /// display all order history of a customer
         /// </summary>

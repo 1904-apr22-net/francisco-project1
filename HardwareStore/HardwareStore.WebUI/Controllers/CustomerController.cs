@@ -58,23 +58,34 @@ namespace HardwareStore.WebUI.Controllers
         // GET: Customer/Create
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new CustomerViewModel
+            {
+                Locations=LocRepo.GetAllLocations().ToList()
+            };
+            return View(viewModel);
         }
 
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CustomerViewModel customer)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var newCustomer = new Customer
+                {
+                    FirstName = customer.FName,
+                    LastName=customer.LName,
+                    PhoneNumber=customer.Phone,
+                    DefaultStoreId=customer.DefaultLocationId
+                };
+                CusRepo.AddCustomer(newCustomer);
+                CusRepo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index)); 
             }
         }
 
@@ -101,10 +112,21 @@ namespace HardwareStore.WebUI.Controllers
             }
         }
 
+        //TODO: Add view for delete
+
         // GET: Customer/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Customer customer = CusRepo.GetCustomerById(id);
+            var viewModel = new CustomerViewModel
+            {
+                CustomerId = customer.CustId,
+                FName = customer.FirstName,
+                LName = customer.LastName,
+                Phone = customer.PhoneNumber,
+                DefaultLocationId = customer.DefaultStoreId
+            };
+            return View(viewModel);
         }
 
         // POST: Customer/Delete/5
@@ -114,13 +136,14 @@ namespace HardwareStore.WebUI.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                CusRepo.DeleteCustomer(id);
+                CusRepo.Save();
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
     }
