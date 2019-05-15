@@ -44,6 +44,6 @@ steps:
 
 - task: AzureRmWebAppDeployment@3
   inputs:
-    azureSubscription: '<Project1Connection>'
-    WebAppName: '<1904-guerrerof-hardwarestore>'
+    azureSubscription: 'Project1Connection'
+    WebAppName: '1904-guerrerof-hardwarestore'
     Package: $(System.ArtifactsDirectory)/**/*.zip
