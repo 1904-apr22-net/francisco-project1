@@ -42,10 +42,8 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
-- task: AzureRmWebAppDeployment@4
+- task: AzureRmWebAppDeployment@3
   inputs:
-    ConnectionType: 'AzureRm'
-    azureSubscription: 'Free Trial ( c46194b8-1218-46ee-82a1-de3fbcd60cc2 )'
-    appType: 'webApp'
+    azureSubscription: 'Project1Connection'
     WebAppName: '1904-guerrerof-hardwarestore'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    Package: $(System.ArtifactsDirectory)/**/*.zip
