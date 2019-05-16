@@ -14,8 +14,17 @@ variables:
   solutionPath: 'HardwareStore'
 
 steps:
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud-guerrerof'
+    organization: 'franciscog123-github'
+    scannerMode: 'MSBuild'
+    projectKey: 'guerrerof1904HardwareStore'
+
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
+
 
 # do this after other tasks such as building
 - task: DotNetCoreCLI@2
@@ -23,6 +32,13 @@ steps:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+
+- task: SonarCloudAnalyze@1
+  inputs: {}
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 
     # ...
 # do this after your tests have run
