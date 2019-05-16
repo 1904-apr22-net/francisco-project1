@@ -21,31 +21,29 @@
                     asp-items="@(new SelectList(Model.Customers, "CustId", "FirstName"))" class="form-control"></select>
         </div>
     }
-    <div>
-        @Html.LabelFor(model => model.Products)
+<div>
+    @Html.LabelFor(model => model.Products)
+    <br>
+    @for (var i = 0; i < Model.Products.Count; i++)
+    {
+        @Html.HiddenFor(m => Model.Products[i].ProductId)
+        @Html.HiddenFor(m => Model.Products[i].ProductName)
+        @Html.HiddenFor(m => Model.Products[i].Description)
+        @Html.HiddenFor(m => Model.Products[i].Price)
+        @Html.CheckBoxFor(m => Model.Products[i].Checked)
+        @:&nbsp;
+        @Model.Products[i].ProductName
+        @:&nbsp;
+        @*@Html.DropDownListFor(m => m.SelectedAmount, Model.selectLists[i], "How many")
+        @Html.HiddenFor(m => Model.AmountItems[i].QuantityBought)*@
+        @Html.DropDownListFor(m => Model.NumItems[i], Enumerable.Range(0, 10).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+        @*@Html.EditorFor(m => Model.AmountItems[i].QuantityBought)*@
+        @*@Html.HiddenFor(m => Model.AmountItems[i].OrderItemNum)*@
         <br>
-        @for (var i = 0; i < Model.Products.Count; i++)
-        {
-            @Html.HiddenFor(m => Model.Products[i].ProductId)
-            @Html.HiddenFor(m => Model.Products[i].ProductName)
-            @Html.HiddenFor(m => Model.Products[i].Description)
-            @Html.HiddenFor(m => Model.Products[i].Price)
-            @Html.CheckBoxFor(m => Model.Products[i].Checked)
-            @:&nbsp;
-            @Model.Products[i].ProductName
-            @:&nbsp;
-            @Html.EditorFor(m => Model.AmountItems[i].QuantityBought)
-            @Html.HiddenFor(m => Model.AmountItems[i].OrderItemNum)
-            <br />
-        }
-    </div>
+    }
+</div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</form>
-<form asp-action="Order">
-    <div class="form-group">
-        <input type="submit" value="Order preset" class="btn btn-primary" />
     </div>
 </form>
 

@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<HardwareStore.WebUI.Models.OrderItemViewModel>
+﻿@model IEnumerable<HardwareStore.WebUI.Models.OrderItemViewModel>
 @{
     ViewData["Title"] = "Details";
 }
@@ -11,17 +11,18 @@
                 @Html.DisplayNameFor(model => model.OrderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderItemNum)
-            </th>
+                    @Html.DisplayNameFor(model => model.OrderItemNum)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.QuantityBought)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
+            
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
         </tr>
     </thead>
     <tbody>
@@ -31,20 +32,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderId)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderItemNum)
-                </td>
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderItemNum)
+                    </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.QuantityBought)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
             </tr>
         }
     </tbody>
 </table>
-

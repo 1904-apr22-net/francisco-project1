@@ -57,49 +57,12 @@ namespace HardwareStore.WebUI.Controllers
                 ProductId=i.ProductId,
                 Price=i.Price
             });
+
+            /*var order = OrdRepo.GetOrderById(id);
+            order.OrderItems = OrdRepo.GetItemsByOrderId(id).ToList();
+            var ViewModels = new OrderViewModel(order);*/
             return View(ViewModels);
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Order()
-        {
-            try
-            {
-                Order order = new Order();
-                order.OrderTime = DateTime.Now;
-                order.LocationId = 2;
-                order.CustomerId = 1;
-                order.OrderTotal = 23;
-
-                //List<OrderItem> items = new List<OrderItem>();
-                OrderItem item1 = new OrderItem();
-                item1.OrderItemNum = 1;
-                item1.QuantityBought = 4;
-                item1.ProductId = 3;
-                item1.Price = 5;
-
-                OrderItem item2 = new OrderItem();
-                item2.OrderItemNum = 2;
-                item2.QuantityBought = 1;
-                item2.ProductId = 1;
-                item2.Price = 3;
-
-                OrdRepo.AddOrder(order);
-                OrdRepo.Save();
-
-                item1.OrderId = OrdRepo.GetLastOrderAdded();
-                item2.OrderId = OrdRepo.GetLastOrderAdded();
-                OrdRepo.AddOrderItem(item1);
-                OrdRepo.AddOrderItem(item2);
-                OrdRepo.Save();
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: Orders/Create
@@ -123,6 +86,7 @@ namespace HardwareStore.WebUI.Controllers
                 {
                     OrderTime = DateTime.Now
                 };
+
                 order.LocationId = collection.LocationId;
                 order.CustomerId = collection.CustomerId;
                 order.OrderTotal = 0;
@@ -130,39 +94,63 @@ namespace HardwareStore.WebUI.Controllers
                 {
                     if (collection.Products[i].Checked)
                     {
-                        order.OrderTotal += collection.Products[i].Price * collection.AmountItems[i].QuantityBought;
+                        //int selectedVal = collection.SelectedAmount;
+                        //collection.AmountItems[i].QuantityBought = selectedVal;
+                        order.OrderTotal += collection.Products[i].Price * collection.NumItems[i];
+                        //order.OrderTotal += collection.Products[i].Price * collection.AmountItems[i].QuantityBought ?? default(int); //fails because null orderitems, amount items
                     }
                 }
-                order.Items = new List<OrderItem>();
+                order.OrderItems = new List<OrderItem>();
 
-                var orderItem = new OrderItem();
+                //var orderItem = new OrderItem();
 
+                int count = 0;
                 //adding order items
                 for(var i=0; i<collection.Products.Count;i++)
                 {
                     if(collection.Products[i].Checked)
                     {
-                        orderItem.QuantityBought =collection.AmountItems[i].QuantityBought;
-                        orderItem.OrderItemNum = i;
-                        orderItem.ProductId = collection.Products[i].ProductId;
-                        orderItem.Price = collection.Products[i].Price;
-                        order.OrderItems.Add(orderItem);
+                        try
+                        {
+                            count++;
+                            var orderItem = new OrderItem(collection.NumItems[i]); //quantity check
+                            //var orderItem = new OrderItem(collection.AmountItems[i].QuantityBought ?? default(int));
+                            orderItem.OrderItemNum = count;
+                            orderItem.ProductId = collection.Products[i].ProductId; //check
+                            orderItem.Price = collection.Products[i].Price; //check
+                            order.OrderItems.Add(orderItem);
+                        }
+                        //orderItem.QuantityBought =collection.AmountItems[i].QuantityBought ?? default(int);
+                       catch(ArgumentOutOfRangeException e)
+                        {
+                            _logger.LogTrace(e, "Order item of quantity <1 not added to DB");
+                        }
                     }
                 }
 
                 OrdRepo.AddOrder(order);
+                OrdRepo.Save();
+                int orderId = 0;
                 foreach(var item in order.OrderItems)
                 {
+                    orderId=OrdRepo.GetLastOrderAdded();
+                    item.OrderId = orderId;
                     OrdRepo.AddOrderItem(item);
                 }
+                OrdRepo.Save();
 
                 return RedirectToAction(nameof(Index));
             }
-        
             catch
             {
-               return View();
+                var viewModel = collection;
+                return View(viewModel);
             }
+            /*
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }*/
         }
 
         // GET: Orders/Edit/5

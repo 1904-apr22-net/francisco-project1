@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using HardwareStore.Library;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HardwareStore.WebUI.Models
 {
@@ -22,7 +23,6 @@ namespace HardwareStore.WebUI.Models
         public decimal OrderTotal { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
 
-
         public OrderViewModel() { }
 
         public OrderViewModel(Order order)
@@ -32,7 +32,7 @@ namespace HardwareStore.WebUI.Models
             OrderTotal = order.OrderTotal;
             LocationId = order.LocationId;
             CustomerId = order.CustomerId;
-            OrderItems = order.Items;
+            OrderItems = order.OrderItems;
         }
 
         public List<Location> Locations { get; set; }
@@ -40,6 +40,11 @@ namespace HardwareStore.WebUI.Models
         public List<ProductViewModel> Products { get; set; }
         public List<OrderItemViewModel> AmountItems { get; set; }
         public Location OrderedAt { get; set; }
+
+        public SelectList selector { get; set; }
+
+        //public List<SelectList> selectLists { get; set; }
+        public List <int> NumItems { get; set; }
 
     }
 }
